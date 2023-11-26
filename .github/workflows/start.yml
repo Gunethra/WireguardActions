@@ -28,4 +28,18 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-          sudo apt install wireguard resolvconf && echo done
+
+          echo Updating
+          sudo apt-get update && sudo apt-get upgrade -y
+
+          echo installing deps
+          sudo apt install wireguard resolvconf
+          
+          echo Generating Encryption keys
+          wg genkey | sudo tee /etc/wireguard/private.key && chmod go= /etc/wireguard/private.key && cat /etc/wireguard/private.key | wg pubkey | sudo tee
+
+          Enabling port 51820
+          sudo apt install ufw && sudo ufw allow ssh && sudo ufw allow 51820/udp 
+          sudo ufw enable -y
+          sudo ufw status
+          
